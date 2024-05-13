@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/main.dart';
 
 class ToDoListApp extends StatelessWidget {
   const ToDoListApp({super.key});
@@ -60,18 +61,6 @@ class _TodoListScreenState extends State<TodoListScreen> {
           return ListTile(
             title: Text(todo.title),
             subtitle: Text(todo.content),
-            trailing: Checkbox(
-              value: todo.status == TodoStatus.completed,
-              onChanged: (value) {
-                setState(() {
-                  if (value != null) {
-                    todo.status =
-                        value ? TodoStatus.completed : TodoStatus.pending;
-                    RemoveTodo(index);
-                  }
-                });
-              },
-            ),
           );
         },
       ),
@@ -83,6 +72,13 @@ class _TodoListScreenState extends State<TodoListScreen> {
         child: const Icon(Icons.add),
       ),
       persistentFooterButtons: <Widget>[
+        ElevatedButton(
+          onPressed: () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const MyApp()),
+          ),
+          child: const Text('Quay lại'),
+        ),
         ElevatedButton(
           onPressed: () {
             Navigator.push(
@@ -146,11 +142,16 @@ class _TodoListScreenState extends State<TodoListScreen> {
   }
 }
 
-class AllTodosScreen extends StatelessWidget {
+class AllTodosScreen extends StatefulWidget {
   final List<Todo> todos;
 
   const AllTodosScreen({super.key, required this.todos});
 
+  @override
+  State<AllTodosScreen> createState() => _AllTodosScreenState();
+}
+
+class _AllTodosScreenState extends State<AllTodosScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -159,17 +160,36 @@ class AllTodosScreen extends StatelessWidget {
         title: const Text('Danh sách công việc'),
       ),
       body: ListView.builder(
-        itemCount: todos.length,
+        itemCount: widget.todos.length,
         itemBuilder: (context, index) {
-          final todo = todos[index];
+          final todo = widget.todos[index];
           return ListTile(
-            title: Text(todo.title),
-            subtitle: Text(todo.content),
-            trailing: Checkbox(
-              value: todo.status == TodoStatus.completed,
-              onChanged: null,
-            ),
-          );
+              title: Text(todo.title),
+              subtitle: Text(todo.content),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.delete),
+                    onPressed: () {
+                      setState(() {
+                        widget.todos.removeAt(index);
+                      });
+                    },
+                  ),
+                  Checkbox(
+                    value: todo.status == TodoStatus.completed,
+                    onChanged: (value) {
+                      setState(() {
+                        if (value != null) {
+                          todo.status =
+                              value ? TodoStatus.completed : TodoStatus.pending;
+                        }
+                      });
+                    },
+                  ),
+                ],
+              ));
         },
       ),
     );

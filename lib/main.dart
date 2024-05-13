@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/Clock/ClockTime.dart';
+import 'package:flutter_application_1/Note/NoteController.dart';
 import 'package:flutter_application_1/ToDoListApp/ToDoListApp.dart';
 import 'package:flutter_application_1/solve1.dart';
 import 'package:flutter_application_1/solve2.dart';
@@ -48,9 +50,24 @@ class _MyHomePageState extends State<MyHomePage> {
             ElevatedButton(
               onPressed: () => Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => ToDoListApp()),
+                MaterialPageRoute(builder: (context) => const NoteController()),
+              ),
+              child: const Text('Ghi Chú'),
+            ),
+            ElevatedButton(
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const ToDoListApp()),
               ),
               child: const Text('To Do List'),
+            ),
+            ElevatedButton(
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const ClockTimeCountDown()),
+              ),
+              child: const Text('Đồng hồ đếm ngược'),
             ),
             ElevatedButton(
               onPressed: () => Navigator.push(
