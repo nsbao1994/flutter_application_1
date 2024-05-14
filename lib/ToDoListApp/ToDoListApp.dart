@@ -73,13 +73,6 @@ class _TodoListScreenState extends State<TodoListScreen> {
       ),
       persistentFooterButtons: <Widget>[
         ElevatedButton(
-          onPressed: () => Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const MyApp()),
-          ),
-          child: const Text('Quay lại'),
-        ),
-        ElevatedButton(
           onPressed: () {
             Navigator.push(
               context,
@@ -88,6 +81,21 @@ class _TodoListScreenState extends State<TodoListScreen> {
             );
           },
           child: const Text('Danh sách công việc'),
+        ),
+        BottomAppBar(
+          shape: const CircularNotchedRectangle(),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const MyApp()),
+                ),
+              ),
+            ],
+          ),
         ),
       ],
     );
