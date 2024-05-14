@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print, library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 
@@ -11,7 +13,6 @@ class ClockTimeCountDown extends StatefulWidget {
   const ClockTimeCountDown({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
   _ClockTimeCountDownState createState() => _ClockTimeCountDownState();
 }
 
@@ -50,9 +51,7 @@ class _ClockTimeCountDownState extends State<ClockTimeCountDown> {
               endTime: _endTime,
               textStyle: const TextStyle(fontSize: 30, color: Colors.red),
               onEnd: () {
-                // ignore: avoid_print
                 print('end');
-                // Thực hiện hành động khi đồng hồ đếm ngược kết thúc
               },
             ),
           ],

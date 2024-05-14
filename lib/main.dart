@@ -74,14 +74,14 @@ class _MyHomePageState extends State<MyHomePage> {
                 context,
                 MaterialPageRoute(builder: (context) => const Solve1Screen()),
               ),
-              child: const Text('Chương trình bật 1'),
+              child: const Text('Phương trình bật 1'),
             ),
             ElevatedButton(
               onPressed: () => Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const Solve2Screen()),
               ),
-              child: const Text('Chương trình bật 2'),
+              child: const Text('Phương trình bật 2'),
             ),
           ],
         ),

@@ -1,101 +1,110 @@
-import 'dart:math';
+// ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
+import 'dart:math';
+
 import 'package:flutter_application_1/main.dart';
 
-void main() {
-  runApp(const Solve2());
-}
+void main() => runApp(const Solve2Screen());
 
-class Solve2 extends StatelessWidget {
-  const Solve2({super.key});
+class Solve2Screen extends StatelessWidget {
+  const Solve2Screen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Chương trình tính phương trình bật hai',
+      title: 'Giải phương trình bậc hai',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.green.shade100),
-        useMaterial3: true,
+        primarySwatch: Colors.green,
       ),
-      home: const Solve2Screen(),
+      home: const MyHomePage(),
     );
   }
 }
 
-class Solve2Screen extends StatefulWidget {
-  const Solve2Screen({super.key});
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key});
 
   @override
-// ignore: library_private_types_in_public_api
-  _Solve2ScreenState createState() => _Solve2ScreenState();
+  _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _Solve2ScreenState extends State<Solve2Screen> {
-  TextEditingController controllerA = TextEditingController();
-  TextEditingController controllerB = TextEditingController();
-  TextEditingController controllerC = TextEditingController();
-  String solution = '';
-  // ignore: non_constant_identifier_names
-  void SolveQuest() {
-    double a = double.tryParse(controllerA.text) ?? 0;
-    double b = double.tryParse(controllerB.text) ?? 0;
-    double c = double.tryParse(controllerC.text) ?? 0;
-    double delta = b * b - 4 * a * c;
-    if (delta < 0) {
-      setState(() {
-        solution = 'Phương trình vô nghiệm';
-      });
-    } else if (delta == 0) {
-      double x = -b / (2 * a);
-      setState(() {
-        solution = 'Phương trình có nghiệm kép là: x= $x';
-      });
-    } else {
-      double x1 = (-b + sqrt(delta)) / (2 * a);
-      double x2 = (-b - sqrt(delta)) / (2 * a);
-      setState(() {
-        solution =
-            'Nghiệm của phương trình là: x=$x1, Nghiệm của phương trình là: x2 = $x2';
-      });
-    }
+class _MyHomePageState extends State<MyHomePage> {
+  final TextEditingController _aController = TextEditingController();
+  final TextEditingController _bController = TextEditingController();
+  final TextEditingController _cController = TextEditingController();
+  String _result = '';
+
+  void _calculateQuadraticEquation() {
+    setState(() {
+      double a = double.parse(_aController.text);
+      double b = double.parse(_bController.text);
+      double c = double.parse(_cController.text);
+
+      double delta = b * b - 4 * a * c;
+
+      if (delta > 0) {
+        double x1 = (-b + sqrt(delta)) / (2 * a);
+        double x2 = (-b - sqrt(delta)) / (2 * a);
+        _result = 'Phương trình có hai nghiệm phân biệt:\nX1 = $x1\nX2 = $x2';
+      } else if (delta == 0) {
+        double x = -b / (2 * a);
+        _result = 'Phương trình có nghiệm kép:\nX = $x';
+      } else {
+        _result = 'Phương trình vô nghiệm';
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text('Phương trình bật nhất'),
+        title: const Text('Giải phương trình bậc hai'),
+        backgroundColor: Colors.green.shade100,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
+      body: Center(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            TextField(
-              controller: controllerA,
-              keyboardType: TextInputType.number,
-              decoration: const InputDecoration(labelText: 'Nhập số a'),
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: TextField(
+                controller: _aController,
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(
+                  labelText: 'Nhập hệ số a',
+                ),
+              ),
             ),
-            TextField(
-              controller: controllerB,
-              keyboardType: TextInputType.number,
-              decoration: const InputDecoration(labelText: 'Nhập số b'),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: TextField(
+                controller: _bController,
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(
+                  labelText: 'Nhập hệ số b',
+                ),
+              ),
             ),
-            TextField(
-              controller: controllerC,
-              keyboardType: TextInputType.number,
-              decoration: const InputDecoration(labelText: 'Nhập số c'),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: TextField(
+                controller: _cController,
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(
+                  labelText: 'Nhập hệ số c',
+                ),
+              ),
             ),
+            const SizedBox(height: 15.0),
             Text(
-              solution,
-              style:
-                  const TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+              _result,
+              style: const TextStyle(fontSize: 15.0),
+              textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 20.0),
             ElevatedButton(
-              onPressed: SolveQuest,
+              onPressed: _calculateQuadraticEquation,
               child: const Text('Giải'),
             ),
             ElevatedButton(
@@ -105,13 +114,9 @@ class _Solve2ScreenState extends State<Solve2Screen> {
               ),
               child: const Text('Quay lại'),
             ),
-            const SizedBox(
-              height: 25.0,
-            ),
           ],
         ),
       ),
-      // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
